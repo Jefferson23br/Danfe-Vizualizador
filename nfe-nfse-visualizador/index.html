@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualizador DANFE / DANFS-e</title>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell no-print">
+      <h1>Visualizador Padrão Nacional (DANFE / DANFS-e)</h1>
+      <div class="toolbar">
+        <label for="xmlFile" class="btn">Selecionar XML</label>
+        <input id="xmlFile" type="file" accept=".xml,text/xml,application/xml" />
+        <button id="printButton" class="btn btn-secondary" type="button">Imprimir</button>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </main>
+
+    <section id="paper" class="paper hidden">
+      <article id="danfeTemplate" class="doc hidden">
+        <header class="doc-header">
+          <div class="box grow">
+            <div class="label">EMITENTE</div>
+            <div id="danfeEmitenteNome" class="value strong"></div>
+            <div id="danfeEmitenteEndereco" class="value"></div>
+            <div class="value">CNPJ: <span id="danfeEmitenteCnpj"></span></div>
+            <div class="value">IE: <span id="danfeEmitenteIe"></span></div>
+          </div>
+          <div class="box title-box">
+            <div class="title">DANFE</div>
+            <div class="subtitle">Documento Auxiliar da Nota Fiscal Eletronica</div>
+            <div class="value">Nº <span id="danfeNumero"></span> | Serie <span id="danfeSerie"></span></div>
+          </div>
+        </header>
+
+        <section class="box">
+          <div class="label">CHAVE DE ACESSO</div>
+          <div id="danfeChave" class="value mono"></div>
+          <div class="value">Natureza da Operacao: <span id="danfeNatOp"></span></div>
+          <div class="value">Protocolo: <span id="danfeProtocolo"></span></div>
+          <div class="value">Data/Hora Emissao: <span id="danfeEmissao"></span></div>
+        </section>
+
+        <section class="box">
+          <div class="label">DESTINATARIO / REMETENTE</div>
+          <div class="grid two">
+            <div><span class="small-label">Nome:</span> <span id="danfeDestNome"></span></div>
+            <div><span class="small-label">CNPJ/CPF:</span> <span id="danfeDestDoc"></span></div>
+            <div><span class="small-label">Endereco:</span> <span id="danfeDestEndereco"></span></div>
+            <div><span class="small-label">Municipio/UF:</span> <span id="danfeDestCidadeUf"></span></div>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="label">CALCULO DO IMPOSTO</div>
+          <div class="grid four">
+            <div><span class="small-label">BC ICMS:</span> <span id="danfeBcIcms"></span></div>
+            <div><span class="small-label">Vlr ICMS:</span> <span id="danfeVlrIcms"></span></div>
+            <div><span class="small-label">Vlr Produtos:</span> <span id="danfeVlrProd"></span></div>
+            <div><span class="small-label">Vlr Nota:</span> <span id="danfeVlrNota"></span></div>
+            <div><span class="small-label">Frete:</span> <span id="danfeVlrFrete"></span></div>
+            <div><span class="small-label">Seguro:</span> <span id="danfeVlrSeguro"></span></div>
+            <div><span class="small-label">Desconto:</span> <span id="danfeVlrDesc"></span></div>
+            <div><span class="small-label">IPI:</span> <span id="danfeVlrIpi"></span></div>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="label">DADOS DOS PRODUTOS / SERVICOS</div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Codigo</th>
+                <th>Descricao</th>
+                <th>NCM</th>
+                <th>CFOP</th>
+                <th>Un</th>
+                <th>Qtd</th>
+                <th>Vlr Unit</th>
+                <th>Desc</th>
+                <th>Vlr Total</th>
+                <th>BC ICMS</th>
+                <th>Vlr ICMS</th>
+                <th>Vlr IPI</th>
+                <th>Aliq ICMS</th>
+                <th>Aliq IPI</th>
+              </tr>
+            </thead>
+            <tbody id="danfeItens"></tbody>
+          </table>
+        </section>
+
+        <section class="box">
+          <div class="label">TRANSPORTADOR / VOLUMES</div>
+          <div class="grid two">
+            <div><span class="small-label">Razao Social:</span> <span id="danfeTranspNome"></span></div>
+            <div><span class="small-label">CNPJ:</span> <span id="danfeTranspCnpj"></span></div>
+            <div><span class="small-label">IE:</span> <span id="danfeTranspIe"></span></div>
+            <div><span class="small-label">Municipio/UF:</span> <span id="danfeTranspCidadeUf"></span></div>
+            <div><span class="small-label">Endereco:</span> <span id="danfeTranspEndereco"></span></div>
+            <div><span class="small-label">Frete por conta:</span> <span id="danfeModFrete"></span></div>
+            <div><span class="small-label">Qtd Volumes:</span> <span id="danfeQVol"></span></div>
+            <div><span class="small-label">Especie:</span> <span id="danfeEsp"></span></div>
+            <div><span class="small-label">Peso Liquido:</span> <span id="danfePesoL"></span></div>
+            <div><span class="small-label">Peso Bruto:</span> <span id="danfePesoB"></span></div>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="label">FATURA / DUPLICATAS (VENCIMENTOS)</div>
+          <div class="grid four">
+            <div><span class="small-label">Nº Fatura:</span> <span id="danfeFatNum"></span></div>
+            <div><span class="small-label">Valor Original:</span> <span id="danfeFatOrig"></span></div>
+            <div><span class="small-label">Desconto:</span> <span id="danfeFatDesc"></span></div>
+            <div><span class="small-label">Valor Liquido:</span> <span id="danfeFatLiq"></span></div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Duplicata</th>
+                <th>Vencimento</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody id="danfeDuplicatas"></tbody>
+          </table>
+        </section>
+
+        <section class="box">
+          <div class="label">INFORMACOES COMPLEMENTARES</div>
+          <div id="danfeInfCpl" class="value"></div>
+        </section>
+      </article>
+
+      <article id="danfseTemplate" class="doc hidden">
+        <header class="doc-header">
+          <div class="box grow">
+            <div class="label">PREFEITURA / ORGAO EMISSOR</div>
+            <div id="danfsePrefeitura" class="value strong"></div>
+            <div id="danfseContato" class="value"></div>
+          </div>
+          <div class="box title-box">
+            <div class="title">DANFS-e</div>
+            <div class="subtitle">Documento Auxiliar da NFS-e</div>
+            <div class="value">Nº <span id="danfseNumero"></span></div>
+            <div class="value">Competencia: <span id="danfseCompetencia"></span></div>
+          </div>
+        </header>
+
+        <section class="box">
+          <div class="label">CHAVE DE ACESSO</div>
+          <div id="danfseChave" class="value mono"></div>
+          <div class="value">Emissao: <span id="danfseEmissao"></span></div>
+        </section>
+
+        <section class="box">
+          <div class="label">PRESTADOR DO SERVICO</div>
+          <div class="grid two">
+            <div><span class="small-label">Razao Social:</span> <span id="danfsePrestadorNome"></span></div>
+            <div><span class="small-label">CNPJ:</span> <span id="danfsePrestadorCnpj"></span></div>
+            <div><span class="small-label">Endereco:</span> <span id="danfsePrestadorEndereco"></span></div>
+            <div><span class="small-label">Municipio/UF:</span> <span id="danfsePrestadorCidadeUf"></span></div>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="label">TOMADOR DO SERVICO</div>
+          <div class="grid two">
+            <div><span class="small-label">Razao Social:</span> <span id="danfseTomadorNome"></span></div>
+            <div><span class="small-label">CPF/CNPJ:</span> <span id="danfseTomadorDoc"></span></div>
+            <div><span class="small-label">Endereco:</span> <span id="danfseTomadorEndereco"></span></div>
+            <div><span class="small-label">Municipio/UF:</span> <span id="danfseTomadorCidadeUf"></span></div>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="label">SERVICO PRESTADO E TRIBUTACAO</div>
+          <div><span class="small-label">Descricao:</span> <span id="danfseDescricao"></span></div>
+          <div class="grid four">
+            <div><span class="small-label">Vlr Servico:</span> <span id="danfseVlrServico"></span></div>
+            <div><span class="small-label">BC ISSQN:</span> <span id="danfseBcIss"></span></div>
+            <div><span class="small-label">Aliquota:</span> <span id="danfseAliquota"></span></div>
+            <div><span class="small-label">ISSQN:</span> <span id="danfseIssqn"></span></div>
+          </div>
+          <div><span class="small-label">Vlr Liquido:</span> <span id="danfseVlrLiquido"></span></div>
+        </section>
+      </article>
+    </section>
+
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>
