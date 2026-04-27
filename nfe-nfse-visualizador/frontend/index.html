@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador DANFE / DANFS-e</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div>
+          <p class="hero-kicker">Plataforma Fiscal</p>
+          <h1>Visualizador Fiscal (DANFE / DANFS-e)</h1>
+          <p class="subtitle">Gere, visualize e valide documentos fiscais com mais rapidez e confianca.</p>
+        </div>
+        <span class="badge-live">Ambiente Online</span>
+      </header>
+
+      <section class="layout-grid">
+        <article class="card panel-upload">
+          <h2>Envio de XML</h2>
+          <p class="panel-text">Selecione o arquivo XML e escolha o documento que deseja gerar.</p>
+
+          <label for="xmlInput" class="label">Arquivo XML</label>
+          <div class="actions actions-upload">
+            <button id="btnPickXml" type="button">Carregar XML</button>
+            <span id="xmlFileName" class="file-name">Nenhum arquivo selecionado</span>
+          </div>
+          <input id="xmlInput" type="file" accept=".xml,text/xml,application/xml" />
+
+          <div class="actions">
+            <button id="btnDanfe" type="button">Gerar DANFE</button>
+            <button id="btnDanfse" type="button">Gerar DANFS-e</button>
+          </div>
+
+          <p id="status" class="status"></p>
+        </article>
+
+        <article class="card panel-tips">
+          <h2>Boas praticas</h2>
+          <ul class="tips-list">
+            <li>Use XML oficial autorizado pela SEFAZ/Prefeitura.</li>
+            <li>Arquivos com muitas duplicatas tambem sao suportados.</li>
+            <li>Confira vencimentos e valores no PDF gerado.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card viewer">
+        <div class="viewer-head">
+          <h2>Pre-visualizacao do PDF</h2>
+        </div>
+        <iframe id="pdfFrame" title="Visualizador de PDF"></iframe>
+      </section>
+    </main>
+
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>
