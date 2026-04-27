@@ -1,0 +1,250 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-main: #0b1220;
+  --bg-soft: #111a2e;
+  --card: rgba(255, 255, 255, 0.96);
+  --card-border: rgba(255, 255, 255, 0.2);
+  --text-main: #0f172a;
+  --text-soft: #475569;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --danger: #b42318;
+  --success: #027a48;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 10% 20%, #1e3a8a 0%, transparent 35%),
+    radial-gradient(circle at 90% 10%, #0f766e 0%, transparent 30%),
+    linear-gradient(145deg, var(--bg-main), var(--bg-soft));
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 36px 18px 26px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.hero-kicker {
+  margin: 0 0 8px;
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: #f8fafc;
+  letter-spacing: 0.2px;
+}
+
+.subtitle {
+  margin-top: 0;
+  margin-bottom: 18px;
+  color: #cbd5e1;
+}
+
+.badge-live {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  color: #a7f3d0;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.22);
+  padding: 18px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.panel-upload h2,
+.panel-tips h2,
+.viewer-head h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.panel-text {
+  margin: 0 0 10px;
+  color: #64748b;
+  font-size: 0.93rem;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.file-name {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  color: var(--text-soft);
+  font-size: 0.93rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.actions-upload {
+  align-items: center;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #3b82f6, var(--primary));
+  color: #fff;
+  padding: 11px 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, #2563eb, var(--primary-hover));
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.status {
+  margin-top: 14px;
+  min-height: 22px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.status.error {
+  color: var(--danger);
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.status.success {
+  color: var(--success);
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.viewer {
+  height: min(78vh, 860px);
+}
+
+.viewer-head {
+  margin-bottom: 12px;
+}
+
+.tips-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.tips-list li + li {
+  margin-top: 6px;
+}
+
+#pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #dbe1ea;
+  border-radius: 12px;
+  background: #fff;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 24px;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .file-name {
+    width: 100%;
+  }
+}
