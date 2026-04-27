@@ -188,7 +188,7 @@ composer install --no-dev --optimize-autoloader
 
 ## Autor
 
-Desenvolvido por **Daniel** com foco em simplicidade operacional, estabilidade e evolucao continua.
+Desenvolvido por **Jefferson** com foco em simplicidade operacional, estabilidade e evolucao continua.
 
 Se voce e recrutador(a), este projeto demonstra:
 - capacidade de entregar software funcional em producao
