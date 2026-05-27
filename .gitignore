@@ -1,0 +1,27 @@
+# Dependencias
+nfe-nfse-visualizador/backend/vendor/
+**/node_modules/
+
+# Ambiente e segredos
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Sistema operacional e IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Logs e temporarios
+*.log
+*.tmp
+*.cache
+
+# Documentos fiscais reais (nao versionar XML/PDF de producao)
+nfe-nfse-visualizador/Exemplos/*.xml
+nfe-nfse-visualizador/Exemplos/*.pdf
