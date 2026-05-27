@@ -1,5 +1,5 @@
 {
-  "name": "auctus/danfe-danfse-api",
+  "name": "jefferson/danfe-danfse-api",
   "description": "API de geração de DANFE e DANFS-e",
   "type": "project",
   "require": {
