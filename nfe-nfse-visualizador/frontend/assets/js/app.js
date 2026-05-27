@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://api3.auctusconsultoria.com.br";
+// Local: http://localhost:8080 | Producao: configure no deploy (nao versionar URL privada)
+const API_BASE_URL = "http://localhost:8080";
 
 document.addEventListener("DOMContentLoaded", () => {
   const xmlInput = document.getElementById("xmlInput");
