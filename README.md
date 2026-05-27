@@ -1,59 +1,56 @@
-# Visualizador Fiscal - DANFE / DANFS-e
+# Visualizador Fiscal — DANFE / DANFS-e
 
-Aplicacao web para gerar e visualizar DANFE (NF-e) e DANFS-e a partir de XML, com frontend estatico e API PHP desacoplada.
+Aplicacao web full stack para **gerar, visualizar e validar DANFE (NF-e) e DANFS-e (NFS-e)** a partir de arquivos XML, com frontend estatico e API PHP desacoplada.
 
-> Projeto pensado para resolver um problema real de operacao fiscal: transformar XML em PDF de forma rapida, simples e com deploy de baixo custo.
+> Solucao desenvolvida para resolver uma dor real de operacao fiscal: transformar XML em PDF de forma rapida, acessivel pelo navegador e com deploy de baixo custo.
 
----
-
-## Visao de Produto
-
-Este projeto entrega uma interface objetiva para equipes administrativas e fiscais:
-
-- upload de XML em poucos cliques
-- geracao de DANFE e DANFS-e em PDF
-- preview no navegador sem depender de desktop local
-- arquitetura separada entre frontend e backend para facilitar manutencao e escala
+[![Demo](https://img.shields.io/badge/demo-online-success)](https://cornflowerblue-goldfinch-949602.hostingersite.com/)
+[![PHP](https://img.shields.io/badge/PHP-8.1%2B-777BB4?logo=php&logoColor=white)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-proprietaria-red)](#licenca)
 
 ---
 
-## Demo em Producao
+## O problema e a solucao
 
-- Frontend: [Gerador DANFE / DANFS-e](https://cornflowerblue-goldfinch-949602.hostingersite.com/)
-- API: `https://api3.auctusconsultoria.com.br`
+Equipes administrativas e fiscais frequentemente precisam converter XML em PDF legivel (DANFE/DANFS-e) sem depender de software desktop, instalacao local ou fluxos manuais demorados.
+
+Este projeto entrega:
+
+- upload de XML em poucos cliques;
+- geracao de PDF com preview imediato no navegador;
+- arquitetura separada entre frontend e backend, facilitando manutencao e evolucao;
+- tratamento de regras fiscais relevantes (duplicatas no DANFE, vencimentos no DANFS-e).
+
+**Demo em producao:** [Visualizador Fiscal](https://cornflowerblue-goldfinch-949602.hostingersite.com/)
 
 ---
 
-## Stack de Tecnologia (e por que foi escolhida)
+## Destaques para recrutadores
+
+| Competencia | Evidencia no projeto |
+|---|---|
+| **Produto + engenharia** | Sistema funcional em producao, nao apenas exercicio academico |
+| **Arquitetura web pragmatica** | Frontend estatico + API REST em infraestruturas distintas |
+| **Dominio fiscal brasileiro** | Parsing de XML NF-e/NFS-e, renderizacao DANFE e DANFS-e customizado |
+| **Ownership ponta a ponta** | Desenvolvimento, UX, regras de negocio, deploy e iteracao continua |
+| **Codigo organizado** | Handlers, services e separacao clara de responsabilidades (PSR-4) |
+
+---
+
+## Stack tecnologica
 
 ### Frontend
-
-- **HTML5 + CSS3 + JavaScript (Vanilla)**
-  - motivo: carregamento rapido, baixa complexidade, sem dependencia de build
-  - impacto: deploy simples em hospedagem compartilhada e manutencao direta
+- **HTML5, CSS3 e JavaScript (Vanilla)** — performance, simplicidade e deploy sem pipeline de build
+- Interface responsiva com fluxo de upload, feedback de status e preview em `iframe`
 
 ### Backend
-
-- **PHP 8.1+**
-  - motivo: ecossistema maduro para integracoes fiscais e alto custo-beneficio de infraestrutura
-  - impacto: API leve e facil de hospedar em VPS comum
-
-- **Composer**
-  - motivo: gerenciamento padronizado de dependencias e autoload PSR-4
-
-- **nfephp-org/sped-da**
-  - motivo: biblioteca consolidada para renderizacao de DANFE
-
-- **setasign/fpdf**
-  - motivo: controle total de layout no DANFS-e customizado
+- **PHP 8.1+** com **Composer** e autoload PSR-4
+- **nfephp-org/sped-da** — renderizacao de DANFE (NF-e)
+- **setasign/fpdf** — layout customizado de DANFS-e (NFS-e)
 
 ### Infraestrutura
-
-- **Hostinger (frontend estatico)**
-  - motivo: entrega simples, economica e confiavel para camada web
-
-- **VPS Linux (API PHP)**
-  - motivo: isolamento da logica fiscal, controle de dominio e escalabilidade futura
+- Frontend estatico em **Hostinger**
+- API PHP em **VPS Linux** (Apache/Nginx + PHP-FPM)
 
 ---
 
@@ -61,136 +58,137 @@ Este projeto entrega uma interface objetiva para equipes administrativas e fisca
 
 ```text
 Usuario (navegador)
-   |
-   | upload XML + acao (DANFE/DANFS-e)
-   v
+        |
+        |  upload XML + acao (DANFE / DANFS-e)
+        v
 Frontend estatico (Hostinger)
-   |
-   | HTTP POST multipart/form-data
-   v
+        |
+        |  HTTP POST multipart/form-data
+        v
 API PHP (VPS)
-   |-- /v1/danfe  -> biblioteca fiscal (sped-da)
-   |-- /v1/danfse -> renderer customizado (FPDF)
-   v
-PDF retornado para preview/download
+   |-- POST /v1/danfe  -> NFePHP sped-da
+   |-- POST /v1/danfse -> renderer customizado (FPDF)
+        v
+PDF retornado para preview / download
 ```
 
 ---
 
-## Estrutura do Projeto
+## Estrutura do repositorio
 
 ```text
 nfe-nfse-visualizador/
-  frontend/
-    index.html
-    assets/
-      css/styles.css
-      js/app.js
-  backend/
-    composer.json
-    public/index.php
-    src/
-      Handlers/
-        DanfeHandler.php
-        DanfseHandler.php
-      Services/
-        DanfsePdfRenderer.php
-        XmlHelper.php
-  Exemplos/
+├── frontend/                 # Interface principal
+│   ├── index.html
+│   └── assets/
+│       ├── css/styles.css
+│       └── js/app.js
+├── backend/                  # API REST
+│   ├── composer.json
+│   ├── public/index.php
+│   └── src/
+│       ├── Handlers/         # DanfeHandler, DanfseHandler
+│       └── Services/         # DanfsePdfRenderer, XmlHelper
+├── embed/                    # Widget embedavel
+└── Exemplos/                 # Pasta reservada (sem XMLs reais versionados)
 ```
 
 ---
 
-## Funcionalidades Entregues
+## Funcionalidades implementadas
 
-- Geracao de DANFE via endpoint dedicado
-- Geracao de DANFS-e com renderer proprio
-- Exibicao de status no frontend (sucesso/erro)
-- Preview de PDF em `iframe`
+- Geracao de **DANFE** via endpoint dedicado (`/v1/danfe`)
+- Geracao de **DANFS-e** com renderer proprio (`/v1/danfse`)
+- Preview de PDF diretamente no navegador
 - Tratamento de XML invalido ou ausente
-- Melhorias de UX no frontend (layout moderno e fluxo de upload)
-- Tratamento de vencimentos no DANFS-e
-- Tratamento de duplicatas no DANFE via informacoes complementares
+- Injecao de **duplicatas** nas informacoes complementares do DANFE
+- Exibicao de **vencimentos** no layout customizado do DANFS-e
+- UX moderna: selecao de arquivo, estados de loading e mensagens de erro/sucesso
 
 ---
 
-## Como Rodar Localmente
+## Como executar localmente
 
-## 1) Backend
-
-Pre-requisitos:
+### Pre-requisitos
 - PHP 8.1+
 - Composer
 
-Comandos:
+### 1) Backend
 
 ```bash
-cd backend
+cd nfe-nfse-visualizador/backend
 composer install
 php -S localhost:8080 -t public
 ```
 
-API local:
+Endpoints locais:
 - `http://localhost:8080/v1/danfe`
 - `http://localhost:8080/v1/danfse`
 
-## 2) Frontend
+### 2) Frontend
 
-Opcao simples: servir a pasta `frontend` com qualquer servidor estatico (ou abrir o `index.html` em ambiente compativel com CORS da API).
+Sirva a pasta `nfe-nfse-visualizador/frontend` com qualquer servidor estatico.
 
-Se quiser testar local apontando para backend local, ajuste a constante `API_BASE_URL` em `frontend/assets/js/app.js`.
+Configure a URL da API em `frontend/assets/js/app.js`:
 
----
-
-## Publicacao
-
-## Frontend (Hostinger)
-
-1. Subir conteudo de `frontend/` no `public_html`.
-2. Confirmar HTTPS ativo.
-3. Limpar cache e validar tela.
-
-## Backend (VPS)
-
-1. Publicar conteudo de `backend/` em ex.: `/var/www/danfe-api`.
-2. Instalar dependencias:
-
-```bash
-cd /var/www/danfe-api
-composer install --no-dev --optimize-autoloader
+```javascript
+const API_BASE_URL = "http://localhost:8080";
 ```
 
-3. Configurar virtual host com document root em `/var/www/danfe-api/public`.
-4. Reiniciar servico web (`apache2` ou `nginx + php-fpm`).
-5. Validar endpoints com POST multipart (`xml`).
+### 3) Teste
+
+Envie um POST multipart com campo `xml` contendo um arquivo NF-e ou NFS-e valido.
 
 ---
 
-## Diferenciais Tecnicos (visao de recrutador)
+## Decisoes tecnicas relevantes
 
-- **Visao de produto + execucao:** sistema resolvendo dor real de negocio, nao apenas exercicio tecnico.
-- **Arquitetura pragmatica:** separacao frontend/backend com deploy em provedores diferentes.
-- **Capacidade de integracao fiscal:** consumo e transformacao de XML com regras de dominio.
-- **Manutencao orientada a impacto:** melhorias incrementais em UX, robustez e exibicao de dados criticos.
-- **Ownership de ponta a ponta:** desenvolvimento, ajuste de layout, correcoes de regra e publicacao.
+**Por que Vanilla JS no frontend?**  
+Reduz complexidade operacional, acelera deploy em hospedagem compartilhada e mantem o foco no fluxo principal.
+
+**Por que PHP no backend?**  
+Ecossistema maduro para integracoes fiscais no Brasil, excelente relacao custo/beneficio em VPS e integracao direta com bibliotecas como NFePHP.
+
+**Por que renderer customizado para DANFS-e?**  
+NFS-e possui variacoes por municipio; o renderer FPDF permite controle fino do layout e evolucao incremental por regras de negocio.
 
 ---
 
-## Proximos Passos (Roadmap)
+## Roadmap
 
-- Configuracao de ambiente por variavel (`API_BASE_URL`, CORS por dominio)
-- Testes automatizados de endpoints
-- Observabilidade basica (logs estruturados e monitoramento de erro)
-- Autenticacao da API para uso privado
-- Padronizacao visual dos PDFs por municipio (NFS-e)
+- [ ] Configuracao de ambiente por variavel (`API_BASE_URL`, CORS por dominio)
+- [ ] Testes automatizados dos endpoints
+- [ ] Logs estruturados e monitoramento basico
+- [ ] Autenticacao da API para uso privado
+- [ ] Padronizacao visual de DANFS-e por municipio
+
+---
+
+## Seguranca e privacidade
+
+- Nao versionar `.env`, certificados digitais (`.pfx`, `.pem`) ou XMLs/PDFs fiscais reais.
+- A pasta `Exemplos/` esta preparada para uso local, com arquivos sensiveis ignorados pelo `.gitignore`.
+- Em producao, recomenda-se restringir CORS, adicionar rate limiting e autenticacao na API.
+
+---
+
+## Licenca
+
+Este projeto e **software proprietario**. Consulte o arquivo [LICENSE](LICENSE).
+
+**Resumo:** e permitida apenas a visualizacao para avaliacao tecnica ou portifolio. E **proibida** a reproducao, redistribuicao, criacao de obras derivadas e **qualquer uso comercial** sem autorizacao escrita do autor.
+
+Para licenciamento comercial ou parceria tecnica, entre em contato.
 
 ---
 
 ## Autor
 
-Desenvolvido por **Jefferson** com foco em simplicidade operacional, estabilidade e evolucao continua.
+**Jefferson**
 
-Se voce e recrutador(a), este projeto demonstra:
-- capacidade de entregar software funcional em producao
-- entendimento de arquitetura web realista
-- foco em resultado de negocio com qualidade tecnica
+Desenvolvedor com foco em solucoes web praticas, estabilidade operacional e entrega de valor em ambientes reais de negocio.
+
+Se voce e recrutador(a), este repositorio demonstra capacidade de:
+- entregar software funcional em producao;
+- projetar arquitetura web desacoplada e sustentavel;
+- aplicar conhecimento de dominio fiscal com qualidade tecnica.
